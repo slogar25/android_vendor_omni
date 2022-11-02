@@ -131,6 +131,10 @@ PRODUCT_BROKEN_SUBOPTIMAL_ORDER_OF_SYSTEM_SERVER_JARS := true
 # Add our overlays
 PRODUCT_PACKAGE_OVERLAYS += vendor/omni/overlay/common
 
+# FaceEnroll - Settings RRO
+PRODUCT_PACKAGES += \
+    FaceEnrollSettingsOverlay
+	
 ifeq ($(ROM_BUILDTYPE),MICROG)
 PRODUCT_PACKAGES += \
     MicrogOmniLibOverlay

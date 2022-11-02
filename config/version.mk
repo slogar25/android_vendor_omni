@@ -16,16 +16,22 @@ TARGET_PRODUCT_SHORT := $(TARGET_PRODUCT)
 TARGET_PRODUCT_SHORT := $(subst omni_,,$(TARGET_PRODUCT_SHORT))
 
 # Build the final version string
-ifeq ($(ROM_BUILDTYPE),GAPPS)
-include vendor/gapps/config.mk
+ifeq ($(ROM_BUILDTYPE),GMS)
+include vendor/gms/products/gms.mk
+$(call inherit-product-if-exists, vendor/pixeloverlays/config.mk)
     VENDOR_EXCEPTION_PATHS += \
-    gapps
+    gms
+	
+# Don't dexpreopt prebuilts. (For GMS).
+DONT_DEXPREOPT_PREBUILTS := true
+PRODUCT_BROKEN_VERIFY_USES_LIBRARIES := true
 endif
-ifeq ($(ROM_BUILDTYPE),MICROG)
-include vendor/microg/microg.mk
-    VENDOR_EXCEPTION_PATHS += \
-    microg
-endif
+
+#feq ($(ROM_BUILDTYPE),MICROG)
+#include vendor/microg/microg.mk
+#    VENDOR_EXCEPTION_PATHS += \
+#    microg
+#endif
 ifeq ($(ROM_BUILDTIME_UTC),y)
     ifeq ($(ROM_BUILDTIME_WITH_TIME),y)
         ROM_VERSION := $(PLATFORM_VERSION)-$(shell date -u +%Y%m%d%H%M)-$(TARGET_PRODUCT_SHORT)-$(ROM_BUILDTYPE)
